@@ -1,5 +1,5 @@
 {
-  "appId": "com.io.ionic.starter",
+  "appId": "io.ionic.starter",
   "appName": "budget_calculator",
   "bundledWebRuntime": false,
   "npmClient": "npm",
