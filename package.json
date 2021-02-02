@@ -13,8 +13,8 @@
     "@capacitor/android": "^2.4.6",
     "@capacitor/core": "2.4.6",
     "@capacitor/ios": "^2.4.6",
-    "@ionic/vue": "^5.4.0",
-    "@ionic/vue-router": "^5.4.0",
+    "@ionic/vue": "^5.5.3",
+    "@ionic/vue-router": "^5.5.3",
     "core-js": "^3.6.5",
     "vue": "^3.0.0-0",
     "vue-router": "^4.0.0-0"
