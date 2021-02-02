@@ -37,7 +37,11 @@
                   ></ion-input>
                 </ion-item>
                 <div class="ion-float-right ion-margin-top ion-margin-bottom">
-                  <ion-button fill="outline" color="danger">
+                  <ion-button 
+                  fill="outline" 
+                  color="danger"
+                  @click="ClearList()"
+                  >
                     <ion-icon name="close-circle-outline"></ion-icon
                     >Clear</ion-button
                   >
@@ -47,12 +51,13 @@
                 </div>
               </ion-card-content>
             </ion-card>
-            <ion-list>
-              <p>Vous avez un total de {{ spendings.length }} dépenses.</p>
+            <ion-list v-for="spending in spendings" :key="spending.description">
+              
               <ion-item>
-                <ion-label>Liste des dépenses</ion-label>
+                <ion-label>{{ spending.description }}: {{spending.amount}} €</ion-label>
               </ion-item>
             </ion-list>
+            <p>Vous avez un total de {{ spendings.length }} dépenses.</p>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -136,6 +141,10 @@ export default defineComponent({
       this.spendings.push(new Spending(this.description, this.amount));
       console.log(this.spendings);
     },
+    ClearList(){
+      this.spendings.length = 0;
+      console.log(this.spendings)
+    }
   },
 });
 </script>
