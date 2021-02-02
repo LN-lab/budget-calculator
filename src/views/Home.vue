@@ -22,27 +22,37 @@
               <ion-card-content>
                 <ion-item>
                   <ion-label color="primary" position="stacked"
-                    >Déscription de la dépense : </ion-label
-                  >
-                  <ion-input></ion-input>
+                    >Déscription de la dépense :
+                  </ion-label>
+                  <ion-input
+                    :value="description"
+                    @ionChange="description = $event.target.value"
+                  ></ion-input>
                 </ion-item>
                 <ion-item>
                   <ion-label position="fixed">Montant : </ion-label>
-                  <ion-input></ion-input>
+                  <ion-input
+                    :value="amount"
+                    @ionChange="amount = $event.target.value"
+                  ></ion-input>
                 </ion-item>
                 <div class="ion-float-right ion-margin-top ion-margin-bottom">
                   <ion-button fill="outline" color="danger">
                     <ion-icon name="close-circle-outline"></ion-icon
                     >Clear</ion-button
                   >
-                  <ion-button @click="DisplayText()" color="primary"
+                  <ion-button @click="AddSpending()" color="primary"
                     >+ AJOUTER DEPENSE</ion-button
                   >
                 </div>
-                
               </ion-card-content>
             </ion-card>
-            <p>Vous avez un total de {{ spendings.length }} dépenses.</p>
+            <ion-list>
+              <p>Vous avez un total de {{ spendings.length }} dépenses.</p>
+              <ion-item>
+                <ion-label>Liste des dépenses</ion-label>
+              </ion-item>
+            </ion-list>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -51,15 +61,14 @@
 </template>
 
 <script lang="ts">
-
 //création d'une classe item avec une description et un montant
 class Spending {
-  description: string
-  amount: number
-  constructor(description: string, amount: string){
-    this.description = description
-    this.amount = parseInt(amount)
-    }
+  description: string;
+  amount: number;
+  constructor(description: string, amount: string) {
+    this.description = description;
+    this.amount = parseInt(amount);
+  }
 }
 import {
   IonContent,
@@ -77,15 +86,16 @@ import {
   IonIcon,
   IonCol,
   IonRow,
-  IonGrid
-  } from "@ionic/vue";
+  IonGrid,
+  IonList,
+} from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from "ionicons";
 import { closeCircleOutline } from "ionicons/icons";
 
 addIcons({
-  "close-circle-outline": closeCircleOutline
-})
+  "close-circle-outline": closeCircleOutline,
+});
 
 export default defineComponent({
   name: "Home",
@@ -107,26 +117,26 @@ export default defineComponent({
     IonCol,
     IonRow,
     IonGrid,
+    IonList,
   },
 
-  data(){
-    return{
+  data() {
+    return {
       description: "",
       amount: "",
-      spendings: Array<Spending>()
-    }
+      spendings: Array<Spending>(),
+    };
   },
 
   methods: {
-    DisplayText(){
-      console.log('Bouton fonctionnel!')
+    DisplayText() {
+      console.log("Bouton fonctionnel!");
     },
-    AddSpending(){
-      const totalSpendings = this.spendings.push(new Spending(this.description, this.amount))
-      console.log(totalSpendings)
-      console.log(this.spendings)
-    }
-  }
+    AddSpending() {
+      this.spendings.push(new Spending(this.description, this.amount));
+      console.log(this.spendings);
+    },
+  },
 });
 </script>
 
