@@ -19,6 +19,7 @@
                     >Déscription de la dépense :
                   </ion-label>
                   <ion-input
+                    clearinput
                     :value="description"
                     @ionChange="description = $event.target.value"
                   ></ion-input>
@@ -26,6 +27,7 @@
                 <ion-item>
                   <ion-label position="fixed">Montant : </ion-label>
                   <ion-input
+                    
                     :value="amount"
                     type=number
                     @ionChange="amount = $event.target.value"
@@ -37,8 +39,8 @@
                     @click="ClearList()"
                     color="danger">
                     <ion-icon name="close-circle-outline"></ion-icon
-                    >Clear</ion-button
-                  >
+                    >Clear</ion-button>
+                  
                   <ion-button 
                   @click="AddSpending()">
                   <ion-icon name="add-sharp"></ion-icon>
@@ -154,6 +156,11 @@ export default defineComponent({
     },
     ClearList() {
       this.spendings.length = 0;
+      this.total = 0;
+
+      
+      
+     
     },
 
     SumAmounts() {
@@ -175,14 +182,6 @@ export default defineComponent({
 </script>
 
 <style >
-:root{
-  --ion-color-primary: #ffa24f;
-  --ion-color-primary-rgb: 255,162,79;
-  --ion-color-primary-contrast: #000000;
-  --ion-color-pirmary-contrast-rgb: 0,0,0;
-  --ion-color-primary-shade: #e08f46;
-  --ion-color-primary-tint: #ffab61;
-}
 
 .ion-color-orange {
 --ion-color-base: var(--ion-color-primary) !important;

@@ -1,6 +1,6 @@
 {
   "appId": "com.io.ionic.starter",
-  "appName": "budget_calculator",
+  "appName": "Calcul de budget",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist",
