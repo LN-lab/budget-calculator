@@ -65,6 +65,8 @@
   </ion-page>
 </template>
 
+<!-------------------------------------------TYPESCRIPT------------------------------------------------->
+
 
 <script lang="ts">
 //création d'une classe item avec une description et un montant
@@ -99,6 +101,7 @@ import {
 import { defineComponent } from "vue";
 import { addIcons } from "ionicons";
 import { addSharp, closeCircleOutline } from "ionicons/icons";
+import firebase from '../services/firebase'
 
 addIcons({
   "close-circle-outline": closeCircleOutline,
@@ -134,6 +137,8 @@ export default defineComponent({
       amount: '',
       spendings: Array<Spending>(),
       total: 0,
+      //création d'une data qui correspond à un child de la bd firebase
+      itemRef : firebase.ref().child("spendings")
     };
   },
 
@@ -141,24 +146,20 @@ export default defineComponent({
     CheckButton() {
       console.log("Bouton fonctionnel!");
     },
+
     AddSpending() {
       this.CheckButton();
       //
       if (!this.amount || !this.description || parseInt(this.amount) < 0) {
         this.presentAlertCheckInputs()
       } else {
-        this.spendings.push(new Spending(this.description, this.amount))
-        this.SumAmounts()
+        this.spendings.push(new Spending(this.description, this.amount)) // on rentre description et amount dans le tableau des spendings
+        this.itemRef.push(this.spendings) // on rentre le tableau spendings dans le child de la bd
+        this.SumAmounts() 
         this.amount = ''
         this.description = ''
       }
    
-    },
-    ClearAll: function() {
-      this.spendings.length = 0
-      this.total = 0
-      this.amount = ''
-      this.description = '';
     },
 
     SumAmounts() {
@@ -175,9 +176,22 @@ export default defineComponent({
       });
       return alert.present();
     },
+
+
+
+    ClearAll: function() {
+      this.spendings.length = 0
+      this.total = 0
+      this.amount = ''
+      this.description = '';
+    },
   },
 });
 </script>
+
+
+<!-------------------------------------------STYLE------------------------------------------------->
+
 
 <style >
 .ion-color-orange {
