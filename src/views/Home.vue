@@ -1,12 +1,12 @@
 <template>
-  <ion-page >
+  <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar color="primary">
         <ion-title size="large">Mon budget app</ion-title>
       </ion-toolbar>
     </ion-header>
 
-    <ion-content >
+    <ion-content>
       <ion-grid>
         <ion-row>
           <!--1 ligne 1 colonne qui prend la moitié de 12 dès qu'on dépasse la taille md. on la décale de 3 pour la centrer-->
@@ -19,32 +19,30 @@
                     >Déscription de la dépense :
                   </ion-label>
                   <ion-input
-                    clearinput
                     :value="description"
-                    @ionChange="description = $event.target.value"
+                    v-model="description"
                   ></ion-input>
                 </ion-item>
                 <ion-item>
                   <ion-label position="fixed">Montant : </ion-label>
                   <ion-input
-                    
-                    :value="amount"
-                    type=number
-                    @ionChange="amount = $event.target.value"
+                    type="number"
+                    v-model="amount"
                   ></ion-input>
                 </ion-item>
+
                 <div class="ion-float-right ion-margin-top ion-margin-bottom">
                   <ion-button
                     fill="outline"
-                    @click="ClearList()"
-                    color="danger">
+                    @click="ClearAll()"
+                    color="danger"
+                  >
                     <ion-icon name="close-circle-outline"></ion-icon
                     >Clear</ion-button>
-                  
-                  <ion-button 
-                  @click="AddSpending()">
-                  <ion-icon name="add-sharp"></ion-icon>
-                    AJOUTER DEPENSE</ion-button>
+                  <ion-button @click="AddSpending()">
+                    <ion-icon name="add-sharp"></ion-icon>
+                    AJOUTER DEPENSE</ion-button
+                  >
                 </div>
               </ion-card-content>
             </ion-card>
@@ -97,7 +95,6 @@ import {
   IonGrid,
   IonList,
   alertController,
- 
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from "ionicons";
@@ -105,7 +102,7 @@ import { addSharp, closeCircleOutline } from "ionicons/icons";
 
 addIcons({
   "close-circle-outline": closeCircleOutline,
-  "add-sharp":addSharp
+  "add-sharp": addSharp,
 });
 
 export default defineComponent({
@@ -129,12 +126,12 @@ export default defineComponent({
     IonRow,
     IonGrid,
     IonList,
-      },
+  },
 
   data() {
     return {
-      description: "",
-      amount: "",
+      description: '',
+      amount: '',
       spendings: Array<Spending>(),
       total: 0,
     };
@@ -147,20 +144,21 @@ export default defineComponent({
     AddSpending() {
       this.CheckButton();
       //
-      if (!this.amount || !this.description || (parseInt(this.amount)<0)){
-        this.presentAlertCheckInputs();
+      if (!this.amount || !this.description || parseInt(this.amount) < 0) {
+        this.presentAlertCheckInputs()
       } else {
-        this.spendings.push(new Spending(this.description, this.amount));
-        this.SumAmounts();
+        this.spendings.push(new Spending(this.description, this.amount))
+        this.SumAmounts()
+        this.amount = ''
+        this.description = ''
       }
+   
     },
-    ClearList() {
-      this.spendings.length = 0;
-      this.total = 0;
-
-      
-      
-     
+    ClearAll: function() {
+      this.spendings.length = 0
+      this.total = 0
+      this.amount = ''
+      this.description = '';
     },
 
     SumAmounts() {
@@ -182,14 +180,13 @@ export default defineComponent({
 </script>
 
 <style >
-
 .ion-color-orange {
---ion-color-base: var(--ion-color-primary) !important;
---ion-color-base-rgb: var(--ion-color-primary-rgb) !important;
---ion-color-contrast: var(--ion-color-primary-contrast) !important;
---ion-color-contrast-rgb: var(--ion-color-primary-contrast-rgb) !important;
---ion-color-shade: var(--ion-color-primary-shade) !important;
---ion-color-tint: var(--ion-color-primary-tint) !important;
+  --ion-color-base: var(--ion-color-primary) !important;
+  --ion-color-base-rgb: var(--ion-color-primary-rgb) !important;
+  --ion-color-contrast: var(--ion-color-primary-contrast) !important;
+  --ion-color-contrast-rgb: var(--ion-color-primary-contrast-rgb) !important;
+  --ion-color-shade: var(--ion-color-primary-shade) !important;
+  --ion-color-tint: var(--ion-color-primary-tint) !important;
 }
 
 #container {
