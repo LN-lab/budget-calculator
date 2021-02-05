@@ -35,7 +35,7 @@
                   >
                   <ion-button @click="addSpending()">
                     <ion-icon name="add-sharp"></ion-icon>
-                    AJOUTER DEPENSE</ion-button
+                    Ajouter</ion-button
                   >
                 </div>
               </ion-card-content>
@@ -221,6 +221,7 @@ export default defineComponent({
       this.description = "";
       this.db.remove();
     },
+
 
     removeOneSpending(key: string) {
       console.log(key);
