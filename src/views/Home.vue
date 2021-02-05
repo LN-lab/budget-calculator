@@ -25,21 +25,15 @@
                 </ion-item>
                 <ion-item>
                   <ion-label position="fixed">Montant : </ion-label>
-                  <ion-input
-                    type="number"
-                    v-model="amount"
-                  ></ion-input>
+                  <ion-input type="number" v-model="amount"></ion-input>
                 </ion-item>
 
                 <div class="ion-float-right ion-margin-top ion-margin-bottom">
-                  <ion-button
-                    fill="outline"
-                    @click="ClearAll()"
-                    color="danger"
-                  >
+                  <ion-button fill="outline" @click="clearAll()" color="danger">
                     <ion-icon name="close-circle-outline"></ion-icon
-                    >Clear</ion-button>
-                  <ion-button @click="AddSpending()">
+                    >Clear</ion-button
+                  >
+                  <ion-button @click="addSpending()">
                     <ion-icon name="add-sharp"></ion-icon>
                     AJOUTER DEPENSE</ion-button
                   >
@@ -49,8 +43,10 @@
             <ion-list v-for="spending in spendings" :key="spending.description">
               <ion-item>
                 <ion-label
-                  >{{ spending.description }}:
-                  {{ spending.amount }} €</ion-label
+                  >{{ spending.description }}: {{ spending.amount }} €
+                </ion-label>
+                <ion-button @click="removeOneSpending(spending.key)"
+                  >Supprimer</ion-button
                 >
               </ion-item>
             </ion-list>
@@ -73,11 +69,19 @@
 class Spending {
   description: string;
   amount: number;
-  constructor(description: string, amount: string) {
+  key: string;
+  constructor(description: string, amount: string, key?: string) {
+    // key est un paramètre optionnel nullable
     this.description = description;
     this.amount = parseInt(amount);
+    if (key == null) {
+      this.key = "";
+    } else {
+      this.key = key.toString();
+    }
   }
 }
+
 import {
   IonContent,
   IonCard,
@@ -101,7 +105,7 @@ import {
 import { defineComponent } from "vue";
 import { addIcons } from "ionicons";
 import { addSharp, closeCircleOutline } from "ionicons/icons";
-import firebase from '../services/firebase'
+import firebase from "../services/firebase";
 
 addIcons({
   "close-circle-outline": closeCircleOutline,
@@ -133,60 +137,111 @@ export default defineComponent({
 
   data() {
     return {
-      description: '',
-      amount: '',
+      description: "",
+      amount: "",
       spendings: Array<Spending>(),
       total: 0,
-      //création d'une data qui correspond à un child de la bd firebase
-      itemRef : firebase.ref().child("spendings")
+      db: firebase.ref().child("/spendings"), //ajout de la suite du lien de l'app avec /spendings
+      key: firebase.ref().key, // récupération des clés de la db firebase
     };
   },
 
+  //push des éléments de la db vers mon component en amont (created)
+  async created() {
+    try {
+      this.db.once("value", (snapshot) => {
+        snapshot.forEach((element) => {
+          const dbSpending = element.val() as Spending; // cast en objet Spending
+          const dbKey = element.key;
+          this.total += dbSpending.amount; // ajout du montant
+          this.spendings.push(
+            //ICI
+            new Spending(
+              dbSpending.description,
+              dbSpending.amount.toString(),
+              dbKey?.toString()
+            )
+          );
+        });
+      });
+      console.log(this.spendings);
+    } catch (error) {
+      console.log("error : " + error);
+    }
+  },
+
   methods: {
-    CheckButton() {
+    checkButton() {
       console.log("Bouton fonctionnel!");
     },
 
-    AddSpending() {
-      this.CheckButton();
+    addSpending() {
+      this.checkButton();
       //
       if (!this.amount || !this.description || parseInt(this.amount) < 0) {
-        this.presentAlertCheckInputs()
+        this.presentAlertCheckInputs();
       } else {
-        this.spendings.push(new Spending(this.description, this.amount)) // on rentre description et amount dans le tableau des spendings
-        this.itemRef.push(this.spendings) // on rentre le tableau spendings dans le child de la bd
-        this.SumAmounts() 
-        this.amount = ''
-        this.description = ''
+        const newSpending = new Spending(this.description, this.amount); // une nouvelle dépense se nomera newSpending
+
+        //DB
+        const dbSpending = this.db.push(newSpending); // on push newSpending dans la db
+
+        newSpending.key = dbSpending.key as string; // TO COMMENT
+
+        //LOCAL
+        this.spendings.push(newSpending); // on rentre description et amount dans le tableau des spendings
+
+        this.sumAmounts(); // on fait le total
+        this.amount = ""; // on vide les champs
+        this.description = "";
       }
-   
     },
 
-    SumAmounts() {
+    sumAmounts() {
       // pour chaque item Spending de mon tableau spendings j'ajoute le montant des items au total
+      this.total = 0;
       this.spendings.forEach((item: Spending) => (this.total += item.amount));
     },
+
     //alert configurée dans une méthode issue de la doc Ion-alert
     async presentAlertCheckInputs() {
       const alert = await alertController.create({
         header: "Alert",
         subHeader: "Valeur non correcte",
-        message: "le message ou le nombre est incorrecte",
+        message: "Veuillez remplir les champs correctement",
         buttons: ["OK"],
       });
       return alert.present();
     },
 
-
-
-    ClearAll: function() {
-      this.spendings.length = 0
-      this.total = 0
-      this.amount = ''
-      this.description = '';
+    clearAll: function () {
+      this.spendings.length = 0;
+      this.total = 0;
+      this.amount = "";
+      this.description = "";
+      this.db.remove();
     },
-  },
-});
+
+    removeOneSpending(key: string) {
+      console.log(key);
+      let index = -1;
+      for (let i = 0; i < this.spendings.length; i++) {
+        // on boucle sur notre tableau de dépenses
+        if (this.spendings[i].key == key) {
+          // si notre paramètre key correspond à un index des dépenses
+          index = i; // je mets cet index dans une variable index
+        }
+      }
+      console.log(index, this.amount);
+
+      this.db.child(this.spendings[index].key).remove(); // on supprime la clé(qui contient la dépense) de la Db
+
+      this.total -= this.spendings[index].amount;
+      this.spendings.splice(index, 1); // on supprime la dépense de la liste en local
+
+    }, // fermeture removeSpending()
+  }, // fermeture methods
+}); // fermeture export défault
 </script>
 
 
