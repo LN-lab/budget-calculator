@@ -12,12 +12,12 @@ import { IonApp } from '@ionic/vue';
 
 <script>
 import Toolbar from "../components/Toolbar.vue";
-import { ionPage, IonHeader, IonContent } from "@ionic/vue";
+import { IonPage, IonHeader, IonContent } from "@ionic/vue";
 
 export default {
   name: "Layout",
 
-  components: { ionPage, IonHeader, IonContent, Toolbar },
+  components: { IonPage, IonHeader, IonContent, Toolbar },
 
 };
 </script>
