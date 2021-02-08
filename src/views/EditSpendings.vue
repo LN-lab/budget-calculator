@@ -49,6 +49,7 @@
               Vous avez rentré {{ spendings.length }} dépenses pour un total de
               {{ total }} €.
             </p>
+            <router-link to="/">retour</router-link>
           </ion-col>
         </ion-row>
       </ion-grid>
