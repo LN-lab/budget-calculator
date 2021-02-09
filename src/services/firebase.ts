@@ -1,5 +1,5 @@
 // Fichier firebase.ts
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import "firebase/database"
 const config = {
   apiKey: "AIzaSyDm4YgO7uCoX6WR_iCX3CUqhDwd-JNyCkk",

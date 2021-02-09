@@ -1,4 +1,3 @@
-import { IonApp } from '@ionic/vue';
 <template>
   <ion-page>
     <ion-header :translucent="true"> 
@@ -12,12 +11,20 @@ import { IonApp } from '@ionic/vue';
 
 <script>
 import Toolbar from "../components/Toolbar.vue";
-import { IonPage, IonHeader, IonContent } from "@ionic/vue";
+import {
+  IonPage,
+  IonHeader,
+  IonContent
+  } from "@ionic/vue";
 
 export default {
   name: "Layout",
 
-  components: { IonPage, IonHeader, IonContent, Toolbar },
+  components: {
+    IonPage,
+    IonHeader,
+    IonContent,
+    Toolbar },
 
 };
 </script>
