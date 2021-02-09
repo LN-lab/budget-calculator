@@ -21,24 +21,14 @@
 
 <script lang="ts">
 import Layout from "../components/Layout.vue";
-import { Category ,} from "../beans/Category";
 import Modal from '../components/Modal.vue';
 import { defineComponent, } from 'vue';
 import { modalController } from '@ionic/vue';
 
 export default defineComponent({
   name: "Home",
-  components: {
-    Layout, 
- 
-  },
-  data() {
-    return {
-     categories: new Array<Category>(),
-     name: Category.name,
+  components: {Layout},
 
-    };
-  },
    methods: {
     async openModal() {
       const modal = await modalController

@@ -84,7 +84,8 @@ import { addIcons } from "ionicons";
 import { addSharp, closeCircleOutline } from "ionicons/icons";
 import firebase from "../services/firebase";
 import { Spending } from "../beans/Spending";
-import Layout from '../components/Layout.vue'
+import Layout from '../components/Layout.vue';
+import { mapGetters } from "vuex";
 
 addIcons({
   "close-circle-outline": closeCircleOutline,
@@ -109,6 +110,10 @@ export default defineComponent({
     IonList,
     Layout
  
+  },
+
+    computed: {
+    ...mapGetters(["getSpendings"]),
   },
 
   data() {
