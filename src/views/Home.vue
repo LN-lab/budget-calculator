@@ -5,14 +5,14 @@
         <ion-card-header>
           <ion-text>Catégories de dépenses</ion-text>
         </ion-card-header>
-                <ion-list v-for="category in categories" :key="category.id">
+              <ion-list v-for="category in categories" :key="category.id">
         
-            <router-link to="/depenses">{{ category }}</router-link>
+            <router-link to="/depenses">{{ category.name }}</router-link>
                 </ion-list>
                 
         <ion-button
-        @click="openModal"
-        >Ajouter</ion-button>
+        @click="openPopover()"
+        >New</ion-button>
         
       </ion-card>
     </template>
@@ -21,25 +21,45 @@
 
 <script lang="ts">
 import Layout from "../components/Layout.vue";
-import Modal from '../components/Modal.vue';
+import Popover from '../components/NewCategoryPopover.vue';
 import { defineComponent, } from 'vue';
-import { modalController } from '@ionic/vue';
+import { Category } from '../beans/Category';
+import { 
+  IonText,
+  IonCardHeader,
+  IonList,
+  IonButton,
+  IonCard,
+  popoverController,
+  } from '@ionic/vue';
+
 
 export default defineComponent({
   name: "Home",
-  components: {Layout},
+  components: {
+    Layout,
+    IonText,
+    IonCardHeader,
+    IonList, 
+    IonButton,
+    IonCard,
+  },
+  data(){
+    return{
+      categories: Array<Category>()
+    }
+  },
 
-   methods: {
-    async openModal() {
-      const modal = await modalController
+    methods: {
+    async openPopover(ev: Event) {
+      const popover = await popoverController
         .create({
-          component: Modal,
+          component: Popover,
           cssClass: 'my-custom-class',
-          componentProps: {
-            title: 'New Title'
-          },
+          event: ev,
+          translucent: true
         })
-      return modal.present();
+      return popover.present();
     },
   },
 });

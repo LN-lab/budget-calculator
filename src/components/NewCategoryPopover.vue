@@ -8,16 +8,25 @@
     <ion-item>
     <ion-label position="stacked">Entre une nouvelle liste de dépenses : </ion-label>
     <ion-input 
-    v-model="name"
-    placeholder="nom de la catégorie"></ion-input>
+      v-model="name"
+      placeholder="nom de la catégorie"></ion-input>
     </ion-item>
     <ion-button
-    @click="AddCategory()">Ajouter</ion-button>
+    >Ajouter</ion-button>
   </ion-content>
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/vue';
+import { 
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonLabel,
+  IonInput,
+  IonItem,
+  IonButton
+} from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { Category } from '../beans/Category';
 import { Spending } from '../beans/Spending';
@@ -25,7 +34,17 @@ import { Spending } from '../beans/Spending';
 
 
 export default defineComponent({
-  name: 'Modal',
+  name: 'Popover',
+  components: {
+    IonContent, 
+    IonHeader, 
+    IonTitle, 
+    IonToolbar,
+    IonLabel,
+    IonInput,
+    IonItem,
+    IonButton
+  },
   props: {
     title: { type: String, default: 'Super Modal' },
   },
@@ -33,23 +52,16 @@ export default defineComponent({
     return {
       content: 'Content',
       name: "",
-      
-
-  
     }
   },
-  components: { 
-    IonContent, 
-    IonHeader, 
-    IonTitle, 
-    IonToolbar 
-  },
 
-  methods: {
-    addCategory(){
-      const newCategory = new Category(this.name, "", new Array<Spending>())
 
-    }
+ methods: {
+   //Ajouter une catégorie à ma liste de catégories
+  addCategory(){
+  const newCategory = new Category(this.name, "", new Array<Spending>())
+  return newCategory;
   }
+}
 });
 </script>
