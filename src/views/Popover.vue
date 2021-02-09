@@ -58,7 +58,6 @@ export default defineComponent({
 //envoyer le nom de la nouvelle liste
   Dismiss() {
   popoverController.dismiss(this.name);
-
   }
 }
 });

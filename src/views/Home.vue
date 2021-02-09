@@ -64,9 +64,10 @@ export default defineComponent({
         })
         popover.onDidDismiss().then(listName => {
           console.log(listName)
+           if(listName.role != "backdrop" && listName.data != ""){
           const newList = new List(listName.data, new Array<Spending>())
-          this.lists.push(newList)
-          console.log(newList)
+          this.lists.push(newList)}
+       
         })
         return popover.present();
     },
