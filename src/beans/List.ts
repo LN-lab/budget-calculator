@@ -2,14 +2,12 @@ import { Spending } from './Spending'
 
 
 
-export class Category {
-  id: string
+export class List {
   name: string
   spendings: Array<Spending>
  
 
-  constructor(name: string, id: string, spendings: Array<Spending>) {
-    this.id = id
+  constructor(name: string, spendings: Array<Spending>) {
     this.name = name
     this.spendings = new Array<Spending>()
     spendings.forEach((spending) => {

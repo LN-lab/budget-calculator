@@ -12,7 +12,7 @@
       placeholder="nom de la catégorie"></ion-input>
     </ion-item>
     <ion-button
-    >Ajouter</ion-button>
+    @click="Dismiss()">Ajouter</ion-button>
   </ion-content>
 </template>
 
@@ -25,12 +25,10 @@ import {
   IonLabel,
   IonInput,
   IonItem,
-  IonButton
+  IonButton,
+  popoverController,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { Category } from '../beans/Category';
-import { Spending } from '../beans/Spending';
-
 
 
 export default defineComponent({
@@ -57,10 +55,10 @@ export default defineComponent({
 
 
  methods: {
-   //Ajouter une catégorie à ma liste de catégories
-  addCategory(){
-  const newCategory = new Category(this.name, "", new Array<Spending>())
-  return newCategory;
+//envoyer le nom de la nouvelle liste
+  Dismiss() {
+  popoverController.dismiss(this.name);
+
   }
 }
 });

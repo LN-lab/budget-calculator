@@ -5,14 +5,15 @@
         <ion-card-header>
           <ion-text>Catégories de dépenses</ion-text>
         </ion-card-header>
-              <ion-list v-for="category in categories" :key="category.id">
+              <ion-list v-for="list in lists" :key="list.id">
         
-            <router-link to="/depenses">{{ category.name }}</router-link>
+            <router-link to="/spendings">{{ list.name }}</router-link>
                 </ion-list>
                 
         <ion-button
-        @click="openPopover()"
+        @click="openPopover"
         >New</ion-button>
+       
         
       </ion-card>
     </template>
@@ -21,9 +22,10 @@
 
 <script lang="ts">
 import Layout from "../components/Layout.vue";
-import Popover from '../components/NewCategoryPopover.vue';
-import { defineComponent, } from 'vue';
-import { Category } from '../beans/Category';
+import Popover from './Popover.vue';
+import { defineComponent } from 'vue';
+import { List } from '../beans/List';
+import { Spending } from '../beans/Spending';
 import { 
   IonText,
   IonCardHeader,
@@ -43,15 +45,16 @@ export default defineComponent({
     IonList, 
     IonButton,
     IonCard,
+
   },
   data(){
     return{
-      categories: Array<Category>()
+      lists: Array<List>()
     }
   },
 
     methods: {
-    async openPopover(ev: Event) {
+     async openPopover(ev: Event) {
       const popover = await popoverController
         .create({
           component: Popover,
@@ -59,8 +62,15 @@ export default defineComponent({
           event: ev,
           translucent: true
         })
-      return popover.present();
+        popover.onDidDismiss().then(listName => {
+          console.log(listName)
+          const newList = new List(listName.data, new Array<Spending>())
+          this.lists.push(newList)
+          console.log(newList)
+        })
+        return popover.present();
     },
+    
   },
 });
 </script>

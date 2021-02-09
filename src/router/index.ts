@@ -14,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Home
   },
   {
-    path: '/depenses',
+    path: '/spendings',
     name: 'EditSpendings',
     component: EditSpendings
   }
