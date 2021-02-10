@@ -6,7 +6,7 @@
   </ion-header>
   <ion-content class="ion-padding">
     <ion-item>
-    <ion-label position="stacked">Entre une nouvelle liste de dépenses : </ion-label>
+    
     <ion-input 
       v-model="name"
       placeholder="nom de la catégorie"></ion-input>
@@ -22,7 +22,6 @@ import {
   IonHeader,
   IonTitle,
   IonToolbar,
-  IonLabel,
   IonInput,
   IonItem,
   IonButton,
@@ -38,7 +37,6 @@ export default defineComponent({
     IonHeader, 
     IonTitle, 
     IonToolbar,
-    IonLabel,
     IonInput,
     IonItem,
     IonButton

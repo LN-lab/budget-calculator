@@ -1,21 +1,30 @@
 <template>
   <Layout>
     <template #content>
-      <ion-card>
-        <ion-card-header>
-          <ion-text>Catégories de dépenses</ion-text>
+      <ion-grid>
+        <ion-row>
+          <!--1 ligne 1 colonne qui prend la moitié de 12 dès qu'on dépasse la taille md. on la décale de 3 pour la centrer-->
+
+          <ion-col size-md="6" offset-md="3">
+      <ion-card class="ion-padding">
+        <ion-card-header class="ion-margin">
+          <ion-text class="ion-text-justify">Mes listes</ion-text>
         </ion-card-header>
-              <ion-list v-for="list in lists" :key="list.id">
-        
-            <router-link to="/spendings">{{ list.name }}</router-link>
+              <ion-list  v-for="list in lists" :key="list.id">
+            <ion-item class="ion-margin-start">
+              <router-link to="/spendings">{{ list.name }}</router-link>
+              </ion-item>
                 </ion-list>
                 
-        <ion-button
+      
+         <ion-button class="ion-padding ion-margin"
         @click="openPopover"
-        >New</ion-button>
-       
+        >Nouvelle liste</ion-button>
         
       </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </template>
   </Layout>
 </template>
@@ -33,6 +42,10 @@ import {
   IonButton,
   IonCard,
   popoverController,
+  IonGrid,
+  IonCol,
+  IonRow,
+  IonItem
   } from '@ionic/vue';
 
 
@@ -45,7 +58,10 @@ export default defineComponent({
     IonList, 
     IonButton,
     IonCard,
-
+    IonGrid,
+    IonCol,
+    IonRow,
+  IonItem
   },
   data(){
     return{
@@ -77,4 +93,8 @@ export default defineComponent({
 </script>
 
 <style>
+ion-text {
+ 
+  font-size: 2rem;
+}
 </style>
