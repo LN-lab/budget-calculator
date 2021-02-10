@@ -4,10 +4,16 @@
       <ion-grid>
         <ion-row>
           <!--1 ligne 1 colonne qui prend la moitié de 12 dès qu'on dépasse la taille md. on la décale de 3 pour la centrer-->
-
           <ion-col size-md="6" offset-md="3">
             <ion-card>
-              <ion-card-header>Nom de la catégorie de dépense à selectionner</ion-card-header>
+              <ion-card-header>
+                {{ listName }}
+                <ion-select >
+                  <ion-select-option :listName="listName">{{ ListName }}</ion-select-option>
+                  <ion-select-option>Liste 2</ion-select-option>
+                </ion-select>
+                </ion-card-header>
+
               <ion-card-content>
                 <ion-item>
                   <ion-label position="stacked"
@@ -62,7 +68,6 @@
 
 
 <script lang="ts">
-//création d'une classe item avec une description et un montant
 
 import {
   IonCard,
@@ -78,6 +83,8 @@ import {
   IonGrid,
   IonList,
   alertController,
+  IonSelect,
+  IonSelectOption
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from "ionicons";
@@ -85,7 +92,7 @@ import { addSharp, closeCircleOutline } from "ionicons/icons";
 import firebase from "../services/firebase";
 import { Spending } from "../beans/Spending";
 import Layout from '../components/Layout.vue';
-import { mapGetters } from "vuex";
+
 
 addIcons({
   "close-circle-outline": closeCircleOutline,
@@ -108,23 +115,24 @@ export default defineComponent({
     IonRow,
     IonGrid,
     IonList,
-    Layout
- 
-  },
-
-    computed: {
-    ...mapGetters(["getSpendings"]),
+    Layout,
+    IonSelect,
+    IonSelectOption
   },
 
   data() {
     return {
       description: "",
+      total: 0,
       amount: "",
       spendings: Array<Spending>(),
-      total: 0,
-      db: firebase.ref().child("/spendings"), //ajout de la suite du lien de l'app avec /spendings
-      key: firebase.ref().key, // récupération des clés de la db firebase
+      listName: "", //TODO
+      dbKey: firebase.ref().key,
+      db: firebase.ref("/lists/"), //ajout de la suite du lien de l'app avec /lists
+
     };
+
+  
   },
 
   //push des éléments de la db vers mon component en amont (created)
@@ -158,10 +166,10 @@ export default defineComponent({
 
     addSpending() {
       this.checkButton();
-      //
       if (!this.amount || !this.description || parseInt(this.amount) < 0) {
         this.presentAlertCheckInputs();
-      } else {
+      
+      } else if(this.amount ||  this.description) {
         const newSpending = new Spending(this.description, this.amount); // une nouvelle dépense se nomera newSpending
 
         //DB

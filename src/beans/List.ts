@@ -6,6 +6,7 @@ export class List {
   name: string
   spendings: Array<Spending>
   totalSpendings: number
+  id: string
 
  
 
@@ -16,5 +17,6 @@ export class List {
       this.spendings.push(spending)
     })
     this.totalSpendings = totalSpendings
+    this.id = ""
     }
 }

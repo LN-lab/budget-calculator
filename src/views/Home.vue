@@ -47,6 +47,8 @@ import Popover from "./Popover.vue";
 import { defineComponent } from "vue";
 import { List } from "../beans/List";
 import { Spending } from "../beans/Spending";
+import firebase from '../services/firebase';
+
 import {
   IonText,
   IonCardHeader,
@@ -89,10 +91,11 @@ export default defineComponent({
         translucent: true,
       });
       popover.onDidDismiss().then((listName) => {
-        console.log(listName);
+        console.log(listName.data);
         if (listName.role != "backdrop" && listName.data != "") {
-          const newList = new List(listName.data, new Array<Spending>(), 45);
-          this.lists.push(newList);
+          const newList = new List(listName.data, new Array<Spending>(), 0);
+          const request = firebase.ref('/lists').push(newList)
+          newList.id = request.key as string
         }
       });
       return popover.present();
