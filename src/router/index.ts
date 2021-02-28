@@ -10,8 +10,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/home',
-    name: 'Home',
-    component: Home
+    name: 'EditSpending',
+    component: EditSpendings
   },
   {
     path: '/spendings',

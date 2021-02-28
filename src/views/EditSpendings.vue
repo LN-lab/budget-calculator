@@ -6,13 +6,13 @@
           <!--1 ligne 1 colonne qui prend la moitié de 12 dès qu'on dépasse la taille md. on la décale de 3 pour la centrer-->
           <ion-col size-md="6" offset-md="3">
             <ion-card>
-              <ion-card-header>
+              <!-- <ion-card-header>
                 {{ listName }}
                 <ion-select >
                   <ion-select-option :listName="listName">{{ ListName }}</ion-select-option>
                   <ion-select-option>Liste 2</ion-select-option>
                 </ion-select>
-                </ion-card-header>
+                </ion-card-header> -->
 
               <ion-card-content>
                 <ion-item>
@@ -73,7 +73,6 @@ import {
   IonCard,
   IonButton,
   IonCardContent,
-  IonCardHeader,
   IonLabel,
   IonInput,
   IonItem,
@@ -82,9 +81,8 @@ import {
   IonRow,
   IonGrid,
   IonList,
-  alertController,
-  IonSelect,
-  IonSelectOption
+  alertController
+
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from "ionicons";
@@ -101,12 +99,10 @@ addIcons({
 
 export default defineComponent({
   name: "EditSpending",
-
   components: {
     IonCard,
     IonButton,
     IonCardContent,
-    IonCardHeader,
     IonLabel,
     IonInput,
     IonItem,
@@ -116,8 +112,6 @@ export default defineComponent({
     IonGrid,
     IonList,
     Layout,
-    IonSelect,
-    IonSelectOption
   },
 
   data() {
